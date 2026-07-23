@@ -1,1 +1,454 @@
-Terima kasih
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rosi Rosidah · Guru Fisika SMAN 5 Bogor</title>
+  <!-- Font Awesome 5 (gratis) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #fcf3d4 0%, #f7e4a0 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    /* KARTU UTAMA – warna kuning gold elegan */
+    .card {
+      max-width: 1100px;
+      width: 100%;
+      background: #fef9e6;  /* dasar krem gold */
+      background-image: radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+      border-radius: 48px 48px 40px 40px;
+      box-shadow: 
+        0 20px 40px -12px rgba(184, 142, 47, 0.35),
+        0 8px 24px rgba(160, 120, 30, 0.2),
+        inset 0 1px 0 rgba(255, 215, 0, 0.4);
+      padding: 2.5rem 2.8rem;
+      border: 1px solid #eac97a;
+      transition: all 0.2s ease;
+    }
+
+    /* header dengan aksen gold */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1.8rem 2.5rem;
+      border-bottom: 3px double #dbb95c;
+      padding-bottom: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f3d58c, #e9b64b);
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      box-shadow: 0 8px 0 #b48b32, 0 12px 28px rgba(190, 150, 50, 0.3);
+      border: 4px solid #fff2d0;
+      flex-shrink: 0;
+    }
+
+    .avatar i {
+      font-size: 4.2rem;
+      color: #3d2e0f;
+      text-shadow: 0 2px 6px rgba(255, 215, 0, 0.6);
+    }
+
+    .title-group {
+      flex: 1;
+    }
+
+    .title-group h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #402f12;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.3rem 1rem;
+    }
+
+    .title-group h1 span {
+      background: linear-gradient(to right, #a77d2e, #dbb257);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    .badge-guru {
+      display: inline-block;
+      background: #eac168;
+      color: #2d210b;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      box-shadow: inset 0 -2px 0 #a77d2e, 0 4px 8px rgba(160, 120, 30, 0.2);
+      letter-spacing: 0.3px;
+      backdrop-filter: blur(2px);
+      border: 1px solid #f5d48a;
+    }
+
+    .subhead {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.8rem 2rem;
+      margin-top: 0.6rem;
+    }
+
+    .subhead i {
+      color: #b48b32;
+      width: 1.6rem;
+      font-size: 1.2rem;
+    }
+
+    .subhead .school {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #4d3a15;
+      background: rgba(235, 205, 120, 0.3);
+      padding: 0.15rem 1.2rem 0.15rem 0.8rem;
+      border-radius: 30px;
+      border-left: 4px solid #c99f3c;
+    }
+
+    .subhead .motto {
+      font-style: italic;
+      color: #5a441b;
+      background: #f7eac2;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-size: 0.95rem;
+      box-shadow: inset 0 1px 4px rgba(255, 215, 0, 0.2);
+    }
+
+    /* grid konten */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 0.9fr;
+      gap: 2rem 2.5rem;
+      margin-top: 1.5rem;
+    }
+
+    @media (max-width: 700px) {
+      .card { padding: 1.8rem; }
+      .title-group h1 { font-size: 2rem; }
+      .content-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+    }
+
+    /* panel kiri */
+    .bio-panel {
+      background: rgba(252, 243, 214, 0.5);
+      backdrop-filter: blur(2px);
+      padding: 1.5rem 1.8rem;
+      border-radius: 32px;
+      border: 1px solid #eed39b;
+      box-shadow: inset 0 1px 6px #fff7da, 0 6px 14px rgba(180, 140, 50, 0.12);
+    }
+
+    .bio-panel h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #3b2d0e;
+      border-bottom: 2px dashed #dbb95c;
+      padding-bottom: 0.65rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .bio-panel h2 i {
+      color: #ba953a;
+    }
+
+    .bio-item {
+      display: flex;
+      align-items: baseline;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #f0dcac;
+    }
+
+    .bio-item:last-child {
+      border-bottom: none;
+    }
+
+    .bio-label {
+      font-weight: 600;
+      width: 110px;
+      color: #654e21;
+      font-size: 0.95rem;
+      letter-spacing: 0.2px;
+    }
+
+    .bio-value {
+      color: #2c1f08;
+      font-weight: 500;
+    }
+
+    .bio-value i {
+      margin-right: 6px;
+      color: #b48b32;
+      width: 1.2rem;
+    }
+
+    .divider-gold {
+      height: 3px;
+      background: linear-gradient(90deg, #eac168, #f7e09f, #eac168);
+      width: 50%;
+      margin: 1rem 0 1.2rem 0;
+      border-radius: 10px;
+      opacity: 0.6;
+    }
+
+    .quote-box {
+      background: #fdf7e3;
+      padding: 1rem 1.4rem;
+      border-radius: 28px;
+      border-left: 8px solid #dbb95c;
+      margin-top: 1.2rem;
+      box-shadow: inset 0 1px 4px #fff3cc;
+    }
+
+    .quote-box i {
+      color: #b48b32;
+      margin-right: 6px;
+    }
+
+    .quote-box p {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #3d2f12;
+      font-style: italic;
+    }
+
+    /* panel kanan – keahlian & lain */
+    .expertise-panel {
+      background: rgba(252, 243, 214, 0.5);
+      backdrop-filter: blur(2px);
+      padding: 1.5rem 1.8rem;
+      border-radius: 32px;
+      border: 1px solid #eed39b;
+      box-shadow: inset 0 1px 6px #fff7da, 0 6px 14px rgba(180, 140, 50, 0.12);
+    }
+
+    .expertise-panel h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #3b2d0e;
+      border-bottom: 2px dashed #dbb95c;
+      padding-bottom: 0.65rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .expertise-panel h2 i {
+      color: #ba953a;
+    }
+
+    .skill-list {
+      list-style: none;
+    }
+
+    .skill-list li {
+      padding: 0.7rem 0 0.7rem 0.2rem;
+      border-bottom: 1px solid #f0dcac;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 500;
+      color: #2f2109;
+    }
+
+    .skill-list li:last-child {
+      border-bottom: none;
+    }
+
+    .skill-list i {
+      width: 1.6rem;
+      color: #b48b32;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    .chip-gold {
+      background: #eed39b;
+      color: #2d1f05;
+      padding: 0.25rem 0.9rem;
+      border-radius: 24px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      border: 1px solid #dbb95c;
+      margin-left: auto;
+    }
+
+    .contact-mini {
+      margin-top: 1.5rem;
+      background: #fcf3d4;
+      border-radius: 28px;
+      padding: 1rem 1.2rem;
+      border: 1px solid #eac97a;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.8rem;
+      justify-content: center;
+    }
+
+    .contact-mini div {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #4d3a15;
+      font-weight: 500;
+    }
+
+    .contact-mini i {
+      color: #b48b32;
+      font-size: 1.1rem;
+      width: 1.6rem;
+    }
+
+    /* footer */
+    .footer-note {
+      margin-top: 2.8rem;
+      text-align: center;
+      color: #765c27;
+      font-size: 0.9rem;
+      border-top: 1px solid #eac97a;
+      padding-top: 1.2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.6rem 1.5rem;
+      flex-wrap: wrap;
+      letter-spacing: 0.3px;
+    }
+
+    .footer-note i {
+      color: #b48b32;
+    }
+
+    .gold-star {
+      color: #dbb257;
+    }
+
+    /* efek hover kecil */
+    .card:hover {
+      box-shadow: 0 24px 48px -12px rgba(184, 142, 47, 0.45), 0 8px 28px rgba(160, 120, 30, 0.2);
+      transition: 0.25s;
+    }
+
+    .bio-item, .skill-list li {
+      transition: background 0.1s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- HEADER dengan avatar gold -->
+    <div class="header">
+      <div class="avatar">
+        <i class="fas fa-chalkboard-teacher"></i>
+      </div>
+      <div class="title-group">
+        <h1>
+          <span>Rosi Rosidah</span>
+          <span class="badge-guru"><i class="fas fa-star gold-star"></i> Guru Fisika</span>
+        </h1>
+        <div class="subhead">
+          <span class="school"><i class="fas fa-school"></i> SMA Negeri 5 Bogor</span>
+          <span class="motto"><i class="fas fa-quote-left"></i> Fisika itu menyenangkan</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KONTEN GRID -->
+    <div class="content-grid">
+      <!-- KIRI : Biodata lengkap -->
+      <div class="bio-panel">
+        <h2><i class="fas fa-user-graduate"></i> Profil</h2>
+        <div class="bio-item">
+          <span class="bio-label"><i class="fas fa-user-circle"></i> Nama</span>
+          <span class="bio-value"><strong>Rosi Rosidah, S.Pd., M.Pd.</strong></span>
+        </div>
+        <div class="bio-item">
+          <span class="bio-label"><i class="fas fa-briefcase"></i> Jabatan</span>
+          <span class="bio-value">Guru Fisika & Koordinator Lab</span>
+        </div>
+        <div class="bio-item">
+          <span class="bio-label"><i class="fas fa-calendar-alt"></i> Bergabung</span>
+          <span class="bio-value">2014 · 12 tahun mengajar</span>
+        </div>
+        <div class="bio-item">
+          <span class="bio-label"><i class="fas fa-graduation-cap"></i> Pendidikan</span>
+          <span class="bio-value">S2 Pendidikan Fisika (UI)</span>
+        </div>
+        <div class="bio-item">
+          <span class="bio-label"><i class="fas fa-flask"></i> Bidang</span>
+          <span class="bio-value">Mekanika, Listrik, Astrofisika</span>
+        </div>
+        <div class="divider-gold"></div>
+        <!-- Kutipan favorit -->
+        <div class="quote-box">
+          <i class="fas fa-quote-left" style="font-size:1.2rem;"></i>
+          <p>“Fisika bukan tentang rumus, tapi tentang cara berpikir. Setiap siswa punya bintangnya sendiri.”</p>
+          <div style="text-align:right; margin-top: 6px; color:#9e7d37;">— Rosi Rosidah</div>
+        </div>
+      </div>
+
+      <!-- KANAN : Keahlian & informasi tambahan -->
+      <div class="expertise-panel">
+        <h2><i class="fas fa-atom"></i> Keahlian & Metode</h2>
+        <ul class="skill-list">
+          <li><i class="fas fa-chart-line"></i> Analisis Data Eksperimen <span class="chip-gold">Expert</span></li>
+          <li><i class="fas fa-laptop"></i> Simulasi Fisika (PhET) <span class="chip-gold">Sering</span></li>
+          <li><i class="fas fa-rocket"></i> Astrofisika & Kosmologi <span class="chip-gold">Favorit</span></li>
+          <li><i class="fas fa-microscope"></i> Laboratorium Virtual <span class="chip-gold">Inovatif</span></li>
+          <li><i class="fas fa-puzzle-piece"></i> Problem Based Learning <span class="chip-gold">Aktif</span></li>
+        </ul>
+        <!-- kontak mini -->
+        <div class="contact-mini">
+          <div><i class="fas fa-envelope"></i> rosi.fisika@sman5bogor.sch.id</div>
+          <div><i class="fas fa-phone-alt"></i> +62 851-2345-6789</div>
+          <div><i class="fas fa-map-pin"></i> Jl. Pendidikan No. 5, Bogor</div>
+        </div>
+        <!-- tambahan: motto sekolah -->
+        <div style="margin-top: 1rem; background: #f7eac2; border-radius: 30px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.8rem; border: 1px solid #eac97a;">
+          <i class="fas fa-flag-checkered" style="color:#b48b32;"></i>
+          <span style="color: #402f12; font-weight: 500;">"SMAN 5 Bogor · Berprestasi, Berkarakter, Berwawasan Lingkungan"</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER dengan sentuhan gold -->
+    <div class="footer-note">
+      <span><i class="fas fa-star gold-star"></i> Rosi Rosidah · Guru Fisika</span>
+      <span><i class="fas fa-circle" style="font-size: 6px; color:#dbb95c;"></i></span>
+      <span><i class="fas fa-calendar-check"></i> 2026 · SMA Negeri 5 Bogor</span>
+      <span><i class="fas fa-certificate" style="color:#b48b32;"></i> “Membimbing generasi cerdas fisika”</span>
+    </div>
+  </div>
+</body>
+</html>
