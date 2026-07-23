@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rosi Rosidah · Guru Fisika SMAN 5 Bogor</title>
-    <!-- Font Awesome 6 (gratis) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* ===== RESET & GLOBAL ===== */
@@ -235,6 +234,7 @@
             display: flex;
             align-items: center;
             gap: 0.6rem;
+            flex-wrap: wrap;
         }
 
         /* ===== HEADER ===== */
@@ -513,6 +513,81 @@
             color: #dbb257;
         }
 
+        /* ===== FALLBACK ===== */
+        .iframe-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #1a1a2e;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #f5d48a;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            z-index: 1;
+        }
+        .iframe-fallback.visible {
+            display: flex;
+        }
+        .iframe-fallback i {
+            font-size: 2.5rem;
+            opacity: 0.4;
+        }
+        .iframe-fallback .sub-text {
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+        .iframe-fallback .retry-link {
+            margin-top: 0.3rem;
+            color: #f5d48a;
+            background: rgba(234, 193, 104, 0.15);
+            padding: 0.3rem 1.2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(234, 193, 104, 0.3);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .iframe-fallback .retry-link:hover {
+            background: rgba(234, 193, 104, 0.25);
+        }
+
+        .camera-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a2e;
+            color: #f5d48a;
+            text-align: center;
+            padding: 1.5rem;
+            z-index: 1;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .camera-fallback.visible {
+            display: flex;
+        }
+        .camera-fallback i {
+            font-size: 2.5rem;
+            opacity: 0.5;
+        }
+        .camera-fallback .sub-text {
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 850px) {
             .card {
@@ -587,82 +662,6 @@
                 font-size: 0.8rem;
             }
         }
-
-        /* ===== STREAM FALLBACK ===== */
-        .iframe-fallback {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: #1a1a2e;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            color: #f5d48a;
-            flex-direction: column;
-            gap: 0.5rem;
-            padding: 1.5rem;
-            text-align: center;
-            z-index: 1;
-        }
-        .iframe-fallback.visible {
-            display: flex;
-        }
-        .iframe-fallback i {
-            font-size: 2.5rem;
-            opacity: 0.4;
-        }
-        .iframe-fallback .sub-text {
-            font-size: 0.7rem;
-            opacity: 0.5;
-        }
-        .iframe-fallback .retry-link {
-            margin-top: 0.3rem;
-            color: #f5d48a;
-            background: rgba(234, 193, 104, 0.15);
-            padding: 0.3rem 1.2rem;
-            border-radius: 20px;
-            border: 1px solid rgba(234, 193, 104, 0.3);
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .iframe-fallback .retry-link:hover {
-            background: rgba(234, 193, 104, 0.25);
-        }
-
-        /* ===== CAMERA FALLBACK ===== */
-        .camera-fallback {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            background: #1a1a2e;
-            color: #f5d48a;
-            text-align: center;
-            padding: 1.5rem;
-            z-index: 1;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        .camera-fallback.visible {
-            display: flex;
-        }
-        .camera-fallback i {
-            font-size: 2.5rem;
-            opacity: 0.5;
-        }
-        .camera-fallback .sub-text {
-            font-size: 0.7rem;
-            opacity: 0.6;
-        }
     </style>
 </head>
 <body>
@@ -670,7 +669,7 @@
     <div class="card">
 
         <!-- ========================================================= -->
-        <!--  VIDEO SIDE-BY-SIDE : Kamera Laptop + Stream IP              -->
+        <!--  VIDEO SIDE-BY-SIDE                                         -->
         <!-- ========================================================= -->
         <div class="video-stream-container">
             <div class="video-grid">
@@ -726,12 +725,8 @@
                 <span><strong>Side by Side</strong> · Kamera &amp; Streaming</span>
                 <div class="caption-right">
                     <i class="fas fa-wifi"></i> http://10.101.209.101/
-                    <span style="margin-left:0.5rem; font-size:0.7rem; opacity:0.7;">
-                        <i class="fas fa-camera"></i> <span id="cameraStatusText">Aktif</span>
-                    </span>
-                    <span style="margin-left:0.5rem; font-size:0.7rem; opacity:0.7;" id="streamStatusText">
-                        <i class="fas fa-circle" style="color:#4ade80;"></i> Online
-                    </span>
+                    <span><i class="fas fa-camera"></i> <span id="cameraStatusText">Aktif</span></span>
+                    <span id="streamStatusText"><i class="fas fa-circle" style="color:#4ade80;"></i> Online</span>
                 </div>
             </div>
         </div>
@@ -855,8 +850,6 @@
             const streamWrapper = document.getElementById('streamWrapper');
 
             let streamOnline = true;
-            let reloadAttempts = 0;
-            const MAX_RELOAD_ATTEMPTS = 5;
 
             // ===== FUNGSI KAMERA =====
             async function startCamera() {
@@ -897,4 +890,13 @@
             function updateCameraUI(state) {
                 if (state === 'on') {
                     camStatusBadge.className = 'status-badge cam-on';
-                    camStatusBadge.innerHTML = '<i class="fas fa-check-circle"></i>
+                    camStatusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Aktif';
+                    cameraStatusText.textContent = 'Aktif';
+                    toggleBtn.className = 'cam-control-btn';
+                    toggleBtn.innerHTML = '<i class="fas fa-video-slash"></i> Matikan';
+                    toggleBtn.style.display = 'flex';
+                    hideCameraFallback();
+                } else {
+                    camStatusBadge.className = 'status-badge cam-off';
+                    camStatusBadge.innerHTML = '<i class="fas fa-times-circle"></i> Mati';
+                    cameraStatusText.textContent = 'Mati';
