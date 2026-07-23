@@ -34,6 +34,7 @@
             transition: all 0.2s ease;
         }
 
+        /* Video Stream Container - Side by Side */
         .video-stream-container {
             width: 100%;
             margin-bottom: 1.8rem;
@@ -45,36 +46,60 @@
             transition: all 0.2s ease;
         }
 
-        .video-stream-container iframe {
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            background: #0a0a0a;
+            min-height: 280px;
+        }
+
+        .video-grid .video-wrapper {
+            position: relative;
+            background: #1a1a2e;
+            overflow: hidden;
+            min-height: 280px;
+        }
+
+        .video-grid .video-wrapper iframe,
+        .video-grid .video-wrapper video {
             display: block;
             width: 100%;
-            height: 280px;
+            height: 100%;
+            min-height: 280px;
             border: none;
-            background: #1a1a1a;
+            background: #1a1a2e;
+            object-fit: cover;
         }
 
-        .video-stream-container .video-caption {
-            background: linear-gradient(135deg, #f3d58c, #e9b64b);
-            padding: 0.5rem 1.2rem;
-            font-size: 0.9rem;
+        .video-grid .video-wrapper .video-label {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            color: #f5d48a;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: #2d210b;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(234, 193, 104, 0.3);
             display: flex;
             align-items: center;
-            gap: 0.8rem;
-            letter-spacing: 0.3px;
-            border-top: 1px solid #dbb95c;
-            flex-wrap: wrap;
+            gap: 6px;
+            z-index: 2;
+            pointer-events: none;
         }
 
-        .video-stream-container .video-caption i {
-            color: #3d2e0f;
+        .video-grid .video-wrapper .video-label i {
+            font-size: 0.8rem;
         }
 
-        .video-stream-container .video-caption .live-dot {
+        .video-grid .video-wrapper .live-dot {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background: #e74c3c;
             border-radius: 50%;
             margin-right: 4px;
@@ -93,6 +118,122 @@
             100% {
                 opacity: 1;
                 transform: scale(1);
+            }
+        }
+
+        .video-grid .video-wrapper .camera-indicator {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: #4ade80;
+            padding: 0.2rem 0.7rem;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .video-grid .video-wrapper .camera-indicator i {
+            font-size: 0.7rem;
+        }
+
+        .video-caption {
+            background: linear-gradient(135deg, #f3d58c, #e9b64b);
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d210b;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            letter-spacing: 0.3px;
+            border-top: 1px solid #dbb95c;
+            flex-wrap: wrap;
+        }
+
+        .video-caption i {
+            color: #3d2e0f;
+        }
+
+        .video-caption .caption-right {
+            margin-left: auto;
+            font-weight: 400;
+            opacity: 0.8;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Camera controls */
+        .camera-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.3rem 0;
+        }
+
+        .camera-controls button {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(234, 193, 104, 0.3);
+            color: #f5d48a;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .camera-controls button:hover {
+            background: rgba(234, 193, 104, 0.3);
+            transform: scale(1.02);
+        }
+
+        .camera-controls button.active {
+            background: #eac168;
+            color: #2d210b;
+            border-color: #dbb95c;
+        }
+
+        .camera-controls .status-text {
+            font-size: 0.7rem;
+            color: #a0a0a0;
+            font-weight: 400;
+        }
+
+        @media (max-width: 700px) {
+            .card {
+                padding: 1.8rem;
+            }
+            .title-group h1 {
+                font-size: 2rem;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1.8rem;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .video-grid .video-wrapper {
+                min-height: 200px;
+            }
+            .video-grid .video-wrapper iframe,
+            .video-grid .video-wrapper video {
+                min-height: 200px;
             }
         }
 
@@ -201,22 +342,6 @@
             grid-template-columns: 1.3fr 0.9fr;
             gap: 2rem 2.5rem;
             margin-top: 1.5rem;
-        }
-
-        @media (max-width: 700px) {
-            .card {
-                padding: 1.8rem;
-            }
-            .title-group h1 {
-                font-size: 2rem;
-            }
-            .content-grid {
-                grid-template-columns: 1fr;
-                gap: 1.8rem;
-            }
-            .video-stream-container iframe {
-                height: 200px;
-            }
         }
 
         .bio-panel {
@@ -429,20 +554,53 @@
 </head>
 <body>
     <div class="card">
-        <!-- VIDEO STREAMING - iframe tidak secure sesuai permintaan -->
+        <!-- VIDEO STREAMING - Side by Side: Kamera + Stream -->
         <div class="video-stream-container">
-            <iframe src="http://10.101.209.101/" allowfullscreen loading="lazy" title="Video Streaming SMA Negeri 5 Bogor"></iframe>
+            <div class="video-grid">
+                <!-- Kamera Laptop (Local) -->
+                <div class="video-wrapper">
+                    <video id="localVideo" autoplay playsinline muted></video>
+                    <div class="video-label">
+                        <i class="fas fa-camera"></i>
+                        <span class="live-dot"></span> Kamera Laptop
+                    </div>
+                    <div class="camera-indicator">
+                        <i class="fas fa-check-circle"></i> Aktif
+                    </div>
+                    <div style="position:absolute; bottom:12px; right:12px; z-index:2; display:flex; gap:6px;">
+                        <button id="toggleCameraBtn" class="camera-controls-btn" style="background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); border:1px solid rgba(234,193,104,0.3); color:#f5d48a; padding:0.2rem 0.8rem; border-radius:16px; font-size:0.65rem; cursor:pointer; transition:all 0.2s;">
+                            <i class="fas fa-video-slash"></i> Matikan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Streaming HTTP -->
+                <div class="video-wrapper">
+                    <iframe id="streamIframe" src="http://10.101.209.101/" allowfullscreen loading="lazy" title="Video Streaming SMA Negeri 5 Bogor"></iframe>
+                    <div class="video-label">
+                        <i class="fas fa-wifi"></i>
+                        <span class="live-dot"></span> Streaming Server
+                    </div>
+                    <div class="camera-indicator" style="color:#fbbf24; border-color:rgba(251,191,36,0.3);">
+                        <i class="fas fa-circle"></i> Live
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caption + Controls -->
             <div class="video-caption">
                 <i class="fas fa-video"></i>
-                <span class="live-dot"></span>
-                <span><strong>Streaming Langsung</strong> · SMA Negeri 5 Bogor</span>
-                <span style="margin-left: auto; font-weight: 400; opacity: 0.8; font-size: 0.8rem;">
+                <span><strong>Side by Side</strong> · Kamera & Streaming</span>
+                <div class="caption-right">
                     <i class="fas fa-wifi"></i> http://10.101.209.101/
-                </span>
+                    <span style="margin-left:0.5rem; font-size:0.7rem; opacity:0.7;">
+                        <i class="fas fa-camera"></i> <span id="cameraStatus">Aktif</span>
+                    </span>
+                </div>
             </div>
         </div>
 
-        <!-- HEADER dengan avatar gold -->
+        <!-- HEADER -->
         <div class="header">
             <div class="avatar">
                 <i class="fas fa-chalkboard-teacher"></i>
@@ -461,7 +619,6 @@
 
         <!-- KONTEN GRID -->
         <div class="content-grid">
-            <!-- KIRI : Biodata lengkap -->
             <div class="bio-panel">
                 <h2><i class="fas fa-user-graduate"></i> Profil</h2>
                 <div class="bio-item">
@@ -492,7 +649,6 @@
                 </div>
             </div>
 
-            <!-- KANAN : Keahlian & informasi tambahan -->
             <div class="expertise-panel">
                 <h2><i class="fas fa-atom"></i> Keahlian & Metode</h2>
                 <ul class="skill-list">
@@ -514,7 +670,6 @@
             </div>
         </div>
 
-        <!-- FOOTER -->
         <div class="footer-note">
             <span><i class="fas fa-star gold-star"></i> Rosi Rosidah · Guru Fisika</span>
             <span><i class="fas fa-circle" style="font-size: 6px; color:#dbb95c;"></i></span>
@@ -522,5 +677,136 @@
             <span><i class="fas fa-certificate" style="color:#b48b32;"></i> “Membimbing generasi cerdas fisika”</span>
         </div>
     </div>
+
+    <script>
+        // ===== KAMERA LAPTOP =====
+        let localStream = null;
+        let cameraActive = true;
+        const localVideo = document.getElementById('localVideo');
+        const toggleBtn = document.getElementById('toggleCameraBtn');
+        const cameraStatus = document.getElementById('cameraStatus');
+
+        async function startCamera() {
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: 'user',
+                        width: { ideal: 640 },
+                        height: { ideal: 480 }
+                    },
+                    audio: false
+                });
+                localVideo.srcObject = localStream;
+                cameraActive = true;
+                cameraStatus.textContent = 'Aktif';
+                toggleBtn.innerHTML = '<i class="fas fa-video-slash"></i> Matikan';
+                toggleBtn.style.borderColor = 'rgba(234,193,104,0.3)';
+            } catch (err) {
+                console.error('Gagal akses kamera:', err);
+                cameraStatus.textContent = 'Tidak Ada Akses';
+                // Tampilkan fallback
+                localVideo.style.background = '#2a1f0a';
+                localVideo.style.display = 'flex';
+                localVideo.style.alignItems = 'center';
+                localVideo.style.justifyContent = 'center';
+                localVideo.innerHTML = `
+                            <div style="color:#f5d48a; text-align:center; padding:1rem;">
+                                <i class="fas fa-camera-slash" style="font-size:2rem; display:block; margin-bottom:0.5rem;"></i>
+                                <span style="font-size:0.9rem;">Kamera tidak tersedia</span>
+                                <br><span style="font-size:0.7rem; opacity:0.6;">Izin kamera diperlukan</span>
+                            </div>
+                        `;
+                // CSS untuk fallback
+                localVideo.style.display = 'flex';
+                localVideo.style.alignItems = 'center';
+                localVideo.style.justifyContent = 'center';
+                localVideo.style.minHeight = '280px';
+                toggleBtn.style.display = 'none';
+            }
+        }
+
+        function toggleCamera() {
+            if (!localStream) return;
+            if (cameraActive) {
+                // Matikan kamera
+                localStream.getTracks().forEach(track => track.stop());
+                localStream = null;
+                localVideo.srcObject = null;
+                cameraActive = false;
+                cameraStatus.textContent = 'Mati';
+                toggleBtn.innerHTML = '<i class="fas fa-video"></i> Nyalakan';
+                toggleBtn.style.borderColor = '#e74c3c';
+                // Tampilkan placeholder
+                localVideo.style.background = '#1a1a2e';
+                localVideo.style.display = 'flex';
+                localVideo.style.alignItems = 'center';
+                localVideo.style.justifyContent = 'center';
+                localVideo.innerHTML = `
+                            <div style="color:#f5d48a; text-align:center; padding:1rem; opacity:0.6;">
+                                <i class="fas fa-camera-slash" style="font-size:2rem; display:block; margin-bottom:0.5rem;"></i>
+                                <span style="font-size:0.9rem;">Kamera dimatikan</span>
+                            </div>
+                        `;
+            } else {
+                // Nyalakan kamera
+                startCamera();
+                // Hapus placeholder jika ada
+                localVideo.innerHTML = '';
+                localVideo.style.display = 'block';
+                localVideo.style.background = '#1a1a2e';
+                // Re-attach stream setelah startCamera selesai
+                // startCamera akan mengatur srcObject
+                // Tapi karena startCamera async, kita tunggu sebentar
+                // Lebih baik reload stream
+                startCamera();
+            }
+        }
+
+        // Event listener tombol toggle
+        toggleBtn.addEventListener('click', toggleCamera);
+
+        // Mulai kamera saat halaman dimuat
+        startCamera();
+
+        // ===== STREAMING IFRAME =====
+        // Jika iframe gagal dimuat, tampilkan pesan
+        const streamIframe = document.getElementById('streamIframe');
+        streamIframe.addEventListener('error', function() {
+            // Jika iframe error, kita tampilkan pesan di dalam wrapper
+            const wrapper = this.parentElement;
+            const existingMsg = wrapper.querySelector('.iframe-fallback');
+            if (!existingMsg) {
+                const fallback = document.createElement('div');
+                fallback.className = 'iframe-fallback';
+                fallback.style.cssText = `
+                            position: absolute; top:0; left:0; right:0; bottom:0;
+                            background: #1a1a2e; display:flex; align-items:center; justify-content:center;
+                            color: #f5d48a; flex-direction:column; gap:0.5rem; padding:1rem; text-align:center;
+                            z-index:1;
+                        `;
+                fallback.innerHTML = `
+                            <i class="fas fa-wifi" style="font-size:2rem; opacity:0.5;"></i>
+                            <span style="font-size:0.9rem;">Streaming tidak tersedia</span>
+                            <span style="font-size:0.7rem; opacity:0.5;">http://10.101.209.101/</span>
+                        `;
+                wrapper.appendChild(fallback);
+            }
+        });
+
+        // Deteksi jika iframe tidak bisa dimuat (timeout)
+        setTimeout(() => {
+            // Cek apakah iframe berhasil dimuat dengan mencoba akses konten
+            try {
+                // Jika cross-origin, akan error, tapi kita anggap berhasil
+                // Kita hanya cek apakah iframe punya src
+                const iframe = document.getElementById('streamIframe');
+                if (iframe && iframe.src) {
+                    // Berhasil, tidak perlu tambahan
+                }
+            } catch (e) {
+                // Cross-origin, berarti berhasil dimuat
+            }
+        }, 5000);
+    </script>
 </body>
 </html>
