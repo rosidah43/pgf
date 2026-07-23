@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rosi Rosidah · Guru Fisika SMAN 5 Bogor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome 6 (gratis) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
+        /* ===== RESET & GLOBAL ===== */
         * {
             margin: 0;
             padding: 0;
@@ -22,8 +24,9 @@
             padding: 2rem 1.5rem;
         }
 
+        /* ===== KARTU UTAMA ===== */
         .card {
-            max-width: 1100px;
+            max-width: 1200px;
             width: 100%;
             background: #fef9e6;
             background-image: radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
@@ -31,10 +34,13 @@
             box-shadow: 0 20px 40px -12px rgba(184, 142, 47, 0.35), 0 8px 24px rgba(160, 120, 30, 0.2), inset 0 1px 0 rgba(255, 215, 0, 0.4);
             padding: 2.5rem 2.8rem;
             border: 1px solid #eac97a;
-            transition: all 0.2s ease;
+            transition: box-shadow 0.25s ease;
+        }
+        .card:hover {
+            box-shadow: 0 24px 48px -12px rgba(184, 142, 47, 0.45), 0 8px 28px rgba(160, 120, 30, 0.2);
         }
 
-        /* Video Stream Container - Side by Side */
+        /* ===== VIDEO SIDE-BY-SIDE ===== */
         .video-stream-container {
             width: 100%;
             margin-bottom: 1.8rem;
@@ -43,7 +49,6 @@
             box-shadow: 0 8px 20px rgba(160, 120, 30, 0.25);
             border: 2px solid #eac97a;
             background: #0a0a0a;
-            transition: all 0.2s ease;
         }
 
         .video-grid {
@@ -51,99 +56,133 @@
             grid-template-columns: 1fr 1fr;
             gap: 2px;
             background: #0a0a0a;
-            min-height: 280px;
+            min-height: 300px;
         }
 
-        .video-grid .video-wrapper {
+        .video-wrapper {
             position: relative;
             background: #1a1a2e;
             overflow: hidden;
-            min-height: 280px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .video-grid .video-wrapper iframe,
-        .video-grid .video-wrapper video {
+        .video-wrapper iframe,
+        .video-wrapper video {
             display: block;
             width: 100%;
             height: 100%;
-            min-height: 280px;
+            min-height: 300px;
             border: none;
             background: #1a1a2e;
             object-fit: cover;
         }
 
-        .video-grid .video-wrapper .video-label {
+        /* Label video */
+        .video-label {
             position: absolute;
-            bottom: 12px;
-            left: 12px;
-            background: rgba(0, 0, 0, 0.7);
+            bottom: 14px;
+            left: 14px;
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(6px);
             color: #f5d48a;
             padding: 0.3rem 1rem;
-            border-radius: 20px;
+            border-radius: 24px;
             font-size: 0.75rem;
             font-weight: 600;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
+            border: 1px solid rgba(234, 193, 104, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .video-label i {
+            font-size: 0.85rem;
+        }
+
+        .live-dot {
+            display: inline-block;
+            width: 9px;
+            height: 9px;
+            background: #e74c3c;
+            border-radius: 50%;
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Indikator status */
+        .status-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(4px);
+            padding: 0.2rem 0.8rem;
+            border-radius: 14px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 2;
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .status-badge.cam-on {
+            color: #4ade80;
+            border-color: rgba(74, 222, 128, 0.25);
+        }
+        .status-badge.cam-off {
+            color: #f87171;
+            border-color: rgba(248, 113, 113, 0.2);
+        }
+        .status-badge.stream-live {
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.25);
+        }
+
+        /* Tombol kontrol kamera (overlay) */
+        .cam-control-btn {
+            position: absolute;
+            bottom: 60px;
+            right: 14px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
             border: 1px solid rgba(234, 193, 104, 0.3);
+            color: #f5d48a;
+            padding: 0.35rem 1rem;
+            border-radius: 24px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 3;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 6px;
-            z-index: 2;
-            pointer-events: none;
+            letter-spacing: 0.3px;
+        }
+        .cam-control-btn:hover {
+            background: rgba(234, 193, 104, 0.25);
+            transform: scale(1.03);
+        }
+        .cam-control-btn.off {
+            border-color: #f87171;
+            color: #f87171;
+        }
+        .cam-control-btn.off:hover {
+            background: rgba(248, 113, 113, 0.15);
         }
 
-        .video-grid .video-wrapper .video-label i {
-            font-size: 0.8rem;
-        }
-
-        .video-grid .video-wrapper .live-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #e74c3c;
-            border-radius: 50%;
-            margin-right: 4px;
-            animation: pulse-dot 1.5s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(0.85);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .video-grid .video-wrapper .camera-indicator {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            color: #4ade80;
-            padding: 0.2rem 0.7rem;
-            border-radius: 12px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            border: 1px solid rgba(74, 222, 128, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .video-grid .video-wrapper .camera-indicator i {
-            font-size: 0.7rem;
-        }
-
+        /* Caption bawah video */
         .video-caption {
             background: linear-gradient(135deg, #f3d58c, #e9b64b);
             padding: 0.5rem 1.2rem;
@@ -153,90 +192,23 @@
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            letter-spacing: 0.3px;
-            border-top: 1px solid #dbb95c;
             flex-wrap: wrap;
+            border-top: 1px solid #dbb95c;
         }
-
         .video-caption i {
             color: #3d2e0f;
         }
-
-        .video-caption .caption-right {
+        .caption-right {
             margin-left: auto;
             font-weight: 400;
             opacity: 0.8;
             font-size: 0.8rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
 
-        /* Camera controls */
-        .camera-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 0.3rem 0;
-        }
-
-        .camera-controls button {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(234, 193, 104, 0.3);
-            color: #f5d48a;
-            padding: 0.3rem 1rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .camera-controls button:hover {
-            background: rgba(234, 193, 104, 0.3);
-            transform: scale(1.02);
-        }
-
-        .camera-controls button.active {
-            background: #eac168;
-            color: #2d210b;
-            border-color: #dbb95c;
-        }
-
-        .camera-controls .status-text {
-            font-size: 0.7rem;
-            color: #a0a0a0;
-            font-weight: 400;
-        }
-
-        @media (max-width: 700px) {
-            .card {
-                padding: 1.8rem;
-            }
-            .title-group h1 {
-                font-size: 2rem;
-            }
-            .content-grid {
-                grid-template-columns: 1fr;
-                gap: 1.8rem;
-            }
-            .video-grid {
-                grid-template-columns: 1fr;
-                min-height: auto;
-            }
-            .video-grid .video-wrapper {
-                min-height: 200px;
-            }
-            .video-grid .video-wrapper iframe,
-            .video-grid .video-wrapper video {
-                min-height: 200px;
-            }
-        }
-
+        /* ===== HEADER ===== */
         .header {
             display: flex;
             flex-wrap: wrap;
@@ -246,7 +218,6 @@
             padding-bottom: 1.8rem;
             margin-bottom: 2rem;
         }
-
         .avatar {
             display: flex;
             align-items: center;
@@ -259,17 +230,14 @@
             border: 4px solid #fff2d0;
             flex-shrink: 0;
         }
-
         .avatar i {
             font-size: 4.2rem;
             color: #3d2e0f;
             text-shadow: 0 2px 6px rgba(255, 215, 0, 0.6);
         }
-
         .title-group {
             flex: 1;
         }
-
         .title-group h1 {
             font-size: 2.6rem;
             font-weight: 700;
@@ -280,7 +248,6 @@
             align-items: baseline;
             gap: 0.3rem 1rem;
         }
-
         .title-group h1 span {
             background: linear-gradient(to right, #a77d2e, #dbb257);
             -webkit-background-clip: text;
@@ -288,7 +255,6 @@
             background-clip: text;
             font-weight: 700;
         }
-
         .badge-guru {
             display: inline-block;
             background: #eac168;
@@ -298,11 +264,9 @@
             padding: 0.4rem 1.2rem;
             border-radius: 40px;
             box-shadow: inset 0 -2px 0 #a77d2e, 0 4px 8px rgba(160, 120, 30, 0.2);
-            letter-spacing: 0.3px;
-            backdrop-filter: blur(2px);
             border: 1px solid #f5d48a;
+            backdrop-filter: blur(2px);
         }
-
         .subhead {
             display: flex;
             flex-wrap: wrap;
@@ -310,13 +274,11 @@
             gap: 0.8rem 2rem;
             margin-top: 0.6rem;
         }
-
         .subhead i {
             color: #b48b32;
             width: 1.6rem;
             font-size: 1.2rem;
         }
-
         .subhead .school {
             font-size: 1.3rem;
             font-weight: 600;
@@ -326,7 +288,6 @@
             border-radius: 30px;
             border-left: 4px solid #c99f3c;
         }
-
         .subhead .motto {
             font-style: italic;
             color: #5a441b;
@@ -337,6 +298,7 @@
             box-shadow: inset 0 1px 4px rgba(255, 215, 0, 0.2);
         }
 
+        /* ===== KONTEN GRID ===== */
         .content-grid {
             display: grid;
             grid-template-columns: 1.3fr 0.9fr;
@@ -344,6 +306,7 @@
             margin-top: 1.5rem;
         }
 
+        /* ===== PANEL KIRI (BIO) ===== */
         .bio-panel {
             background: rgba(252, 243, 214, 0.5);
             backdrop-filter: blur(2px);
@@ -352,7 +315,6 @@
             border: 1px solid #eed39b;
             box-shadow: inset 0 1px 6px #fff7da, 0 6px 14px rgba(180, 140, 50, 0.12);
         }
-
         .bio-panel h2 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -364,22 +326,18 @@
             align-items: center;
             gap: 0.6rem;
         }
-
         .bio-panel h2 i {
             color: #ba953a;
         }
-
         .bio-item {
             display: flex;
             align-items: baseline;
             padding: 0.6rem 0;
             border-bottom: 1px solid #f0dcac;
         }
-
         .bio-item:last-child {
             border-bottom: none;
         }
-
         .bio-label {
             font-weight: 600;
             width: 110px;
@@ -387,18 +345,15 @@
             font-size: 0.95rem;
             letter-spacing: 0.2px;
         }
-
         .bio-value {
             color: #2c1f08;
             font-weight: 500;
         }
-
         .bio-value i {
             margin-right: 6px;
             color: #b48b32;
             width: 1.2rem;
         }
-
         .divider-gold {
             height: 3px;
             background: linear-gradient(90deg, #eac168, #f7e09f, #eac168);
@@ -407,7 +362,6 @@
             border-radius: 10px;
             opacity: 0.6;
         }
-
         .quote-box {
             background: #fdf7e3;
             padding: 1rem 1.4rem;
@@ -416,12 +370,10 @@
             margin-top: 1.2rem;
             box-shadow: inset 0 1px 4px #fff3cc;
         }
-
         .quote-box i {
             color: #b48b32;
             margin-right: 6px;
         }
-
         .quote-box p {
             font-size: 1rem;
             line-height: 1.5;
@@ -429,6 +381,7 @@
             font-style: italic;
         }
 
+        /* ===== PANEL KANAN (KEAHLIAN) ===== */
         .expertise-panel {
             background: rgba(252, 243, 214, 0.5);
             backdrop-filter: blur(2px);
@@ -437,7 +390,6 @@
             border: 1px solid #eed39b;
             box-shadow: inset 0 1px 6px #fff7da, 0 6px 14px rgba(180, 140, 50, 0.12);
         }
-
         .expertise-panel h2 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -449,15 +401,12 @@
             align-items: center;
             gap: 0.6rem;
         }
-
         .expertise-panel h2 i {
             color: #ba953a;
         }
-
         .skill-list {
             list-style: none;
         }
-
         .skill-list li {
             padding: 0.7rem 0 0.7rem 0.2rem;
             border-bottom: 1px solid #f0dcac;
@@ -467,24 +416,21 @@
             font-weight: 500;
             color: #2f2109;
         }
-
         .skill-list li:last-child {
             border-bottom: none;
         }
-
         .skill-list i {
             width: 1.6rem;
             color: #b48b32;
             font-size: 1.2rem;
             text-align: center;
         }
-
         .chip-gold {
             background: #eed39b;
             color: #2d1f05;
             padding: 0.25rem 0.9rem;
             border-radius: 24px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             letter-spacing: 0.4px;
             text-transform: uppercase;
@@ -503,7 +449,6 @@
             gap: 0.8rem 1.8rem;
             justify-content: center;
         }
-
         .contact-mini div {
             display: flex;
             align-items: center;
@@ -511,13 +456,13 @@
             color: #4d3a15;
             font-weight: 500;
         }
-
         .contact-mini i {
             color: #b48b32;
             font-size: 1.1rem;
             width: 1.6rem;
         }
 
+        /* ===== FOOTER ===== */
         .footer-note {
             margin-top: 2.8rem;
             text-align: center;
@@ -532,75 +477,143 @@
             flex-wrap: wrap;
             letter-spacing: 0.3px;
         }
-
         .footer-note i {
             color: #b48b32;
         }
-
         .gold-star {
             color: #dbb257;
         }
 
-        .card:hover {
-            box-shadow: 0 24px 48px -12px rgba(184, 142, 47, 0.45), 0 8px 28px rgba(160, 120, 30, 0.2);
-            transition: 0.25s;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 850px) {
+            .card {
+                padding: 1.8rem;
+            }
+            .title-group h1 {
+                font-size: 2rem;
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1.8rem;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .video-wrapper {
+                min-height: 220px;
+            }
+            .video-wrapper iframe,
+            .video-wrapper video {
+                min-height: 220px;
+            }
+            .header {
+                gap: 1rem 1.5rem;
+            }
+            .avatar {
+                width: 80px;
+                height: 80px;
+            }
+            .avatar i {
+                font-size: 3.2rem;
+            }
         }
 
-        .bio-item,
-        .skill-list li {
-            transition: background 0.1s ease;
+        @media (max-width: 480px) {
+            .card {
+                padding: 1.2rem;
+                border-radius: 32px;
+            }
+            .video-grid {
+                min-height: auto;
+            }
+            .video-wrapper {
+                min-height: 180px;
+            }
+            .video-wrapper iframe,
+            .video-wrapper video {
+                min-height: 180px;
+            }
+            .video-label {
+                font-size: 0.6rem;
+                padding: 0.2rem 0.7rem;
+                bottom: 8px;
+                left: 8px;
+            }
+            .cam-control-btn {
+                font-size: 0.6rem;
+                padding: 0.25rem 0.7rem;
+                bottom: 48px;
+                right: 8px;
+            }
+            .status-badge {
+                font-size: 0.55rem;
+                padding: 0.15rem 0.6rem;
+                top: 8px;
+                right: 8px;
+            }
+            .bio-label {
+                width: 80px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
+
     <div class="card">
-        <!-- VIDEO STREAMING - Side by Side: Kamera + Stream -->
+
+        <!-- ========================================================= -->
+        <!--  VIDEO SIDE-BY-SIDE : Kamera Laptop + Stream IP              -->
+        <!-- ========================================================= -->
         <div class="video-stream-container">
             <div class="video-grid">
-                <!-- Kamera Laptop (Local) -->
-                <div class="video-wrapper">
+
+                <!-- KIRI : Kamera Laptop -->
+                <div class="video-wrapper" id="cameraWrapper">
                     <video id="localVideo" autoplay playsinline muted></video>
                     <div class="video-label">
                         <i class="fas fa-camera"></i>
                         <span class="live-dot"></span> Kamera Laptop
                     </div>
-                    <div class="camera-indicator">
+                    <div class="status-badge cam-on" id="camStatusBadge">
                         <i class="fas fa-check-circle"></i> Aktif
                     </div>
-                    <div style="position:absolute; bottom:12px; right:12px; z-index:2; display:flex; gap:6px;">
-                        <button id="toggleCameraBtn" class="camera-controls-btn" style="background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); border:1px solid rgba(234,193,104,0.3); color:#f5d48a; padding:0.2rem 0.8rem; border-radius:16px; font-size:0.65rem; cursor:pointer; transition:all 0.2s;">
-                            <i class="fas fa-video-slash"></i> Matikan
-                        </button>
-                    </div>
+                    <button class="cam-control-btn" id="toggleCameraBtn">
+                        <i class="fas fa-video-slash"></i> Matikan
+                    </button>
                 </div>
 
-                <!-- Streaming HTTP -->
+                <!-- KANAN : Stream IP HTTP -->
                 <div class="video-wrapper">
-                    <iframe id="streamIframe" src="http://10.101.209.101/" allowfullscreen loading="lazy" title="Video Streaming SMA Negeri 5 Bogor"></iframe>
+                    <iframe id="streamIframe" src="http://10.101.209.101/" allowfullscreen loading="lazy" title="Streaming SMA Negeri 5 Bogor"></iframe>
                     <div class="video-label">
                         <i class="fas fa-wifi"></i>
                         <span class="live-dot"></span> Streaming Server
                     </div>
-                    <div class="camera-indicator" style="color:#fbbf24; border-color:rgba(251,191,36,0.3);">
+                    <div class="status-badge stream-live">
                         <i class="fas fa-circle"></i> Live
                     </div>
                 </div>
+
             </div>
 
-            <!-- Caption + Controls -->
+            <!-- Caption bawah -->
             <div class="video-caption">
                 <i class="fas fa-video"></i>
-                <span><strong>Side by Side</strong> · Kamera & Streaming</span>
+                <span><strong>Side by Side</strong> · Kamera &amp; Streaming</span>
                 <div class="caption-right">
                     <i class="fas fa-wifi"></i> http://10.101.209.101/
                     <span style="margin-left:0.5rem; font-size:0.7rem; opacity:0.7;">
-                        <i class="fas fa-camera"></i> <span id="cameraStatus">Aktif</span>
+                        <i class="fas fa-camera"></i> <span id="cameraStatusText">Aktif</span>
                     </span>
                 </div>
             </div>
         </div>
 
-        <!-- HEADER -->
+        <!-- ========================================================= -->
+        <!--  HEADER : Profil Guru                                       -->
+        <!-- ========================================================= -->
         <div class="header">
             <div class="avatar">
                 <i class="fas fa-chalkboard-teacher"></i>
@@ -617,8 +630,12 @@
             </div>
         </div>
 
-        <!-- KONTEN GRID -->
+        <!-- ========================================================= -->
+        <!--  KONTEN GRID : Biodata + Keahlian                           -->
+        <!-- ========================================================= -->
         <div class="content-grid">
+
+            <!-- PANEL KIRI : Biodata -->
             <div class="bio-panel">
                 <h2><i class="fas fa-user-graduate"></i> Profil</h2>
                 <div class="bio-item">
@@ -627,7 +644,7 @@
                 </div>
                 <div class="bio-item">
                     <span class="bio-label"><i class="fas fa-briefcase"></i> Jabatan</span>
-                    <span class="bio-value">Guru Fisika & Koordinator Lab</span>
+                    <span class="bio-value">Guru Fisika &amp; Koordinator Lab</span>
                 </div>
                 <div class="bio-item">
                     <span class="bio-label"><i class="fas fa-calendar-alt"></i> Mengajar Sejak</span>
@@ -645,16 +662,17 @@
                 <div class="quote-box">
                     <i class="fas fa-quote-left" style="font-size:1.2rem;"></i>
                     <p>“Fisika bukan tentang rumus, tapi tentang cara berpikir. Setiap siswa punya bintangnya sendiri.”</p>
-                    <div style="text-align:right; margin-top: 6px; color:#9e7d37;">— Rosi Rosidah</div>
+                    <div style="text-align:right; margin-top:6px; color:#9e7d37;">— Rosi Rosidah</div>
                 </div>
             </div>
 
+            <!-- PANEL KANAN : Keahlian & Kontak -->
             <div class="expertise-panel">
-                <h2><i class="fas fa-atom"></i> Keahlian & Metode</h2>
+                <h2><i class="fas fa-atom"></i> Keahlian &amp; Metode</h2>
                 <ul class="skill-list">
                     <li><i class="fas fa-chart-line"></i> Analisis Data Eksperimen <span class="chip-gold">Expert</span></li>
                     <li><i class="fas fa-laptop"></i> Simulasi Fisika (PhET) <span class="chip-gold">Sering</span></li>
-                    <li><i class="fas fa-rocket"></i> Astrofisika & Kosmologi <span class="chip-gold">Favorit</span></li>
+                    <li><i class="fas fa-rocket"></i> Astrofisika &amp; Kosmologi <span class="chip-gold">Favorit</span></li>
                     <li><i class="fas fa-microscope"></i> Laboratorium Virtual <span class="chip-gold">Inovatif</span></li>
                     <li><i class="fas fa-puzzle-piece"></i> Problem Based Learning <span class="chip-gold">Aktif</span></li>
                 </ul>
@@ -663,150 +681,180 @@
                     <div><i class="fas fa-phone-alt"></i> +62 851-2345-6789</div>
                     <div><i class="fas fa-map-pin"></i> Jl. Manunggal No. 22, Bogor 16111</div>
                 </div>
-                <div style="margin-top: 1rem; background: #f7eac2; border-radius: 30px; padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.8rem; border: 1px solid #eac97a;">
+                <div style="margin-top:1rem; background:#f7eac2; border-radius:30px; padding:0.5rem 1rem; display:flex; align-items:center; gap:0.8rem; border:1px solid #eac97a;">
                     <i class="fas fa-flag-checkered" style="color:#b48b32;"></i>
-                    <span style="color: #402f12; font-weight: 500;">"SMAN 5 Bogor · Berprestasi, Berkarakter, Berwawasan Lingkungan"</span>
+                    <span style="color:#402f12; font-weight:500;">"SMAN 5 Bogor · Berprestasi, Berkarakter, Berwawasan Lingkungan"</span>
                 </div>
             </div>
+
         </div>
 
+        <!-- ========================================================= -->
+        <!--  FOOTER                                                    -->
+        <!-- ========================================================= -->
         <div class="footer-note">
             <span><i class="fas fa-star gold-star"></i> Rosi Rosidah · Guru Fisika</span>
-            <span><i class="fas fa-circle" style="font-size: 6px; color:#dbb95c;"></i></span>
+            <span><i class="fas fa-circle" style="font-size:6px; color:#dbb95c;"></i></span>
             <span><i class="fas fa-calendar-check"></i> 2026 · SMA Negeri 5 Bogor</span>
             <span><i class="fas fa-certificate" style="color:#b48b32;"></i> “Membimbing generasi cerdas fisika”</span>
         </div>
+
     </div>
 
+    <!-- ========================================================= -->
+    <!--  JAVASCRIPT : Kontrol Kamera & Fallback                     -->
+    <!-- ========================================================= -->
     <script>
-        // ===== KAMERA LAPTOP =====
-        let localStream = null;
-        let cameraActive = true;
-        const localVideo = document.getElementById('localVideo');
-        const toggleBtn = document.getElementById('toggleCameraBtn');
-        const cameraStatus = document.getElementById('cameraStatus');
+        (function() {
+            'use strict';
 
-        async function startCamera() {
-            try {
-                localStream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        facingMode: 'user',
-                        width: { ideal: 640 },
-                        height: { ideal: 480 }
-                    },
-                    audio: false
-                });
-                localVideo.srcObject = localStream;
-                cameraActive = true;
-                cameraStatus.textContent = 'Aktif';
-                toggleBtn.innerHTML = '<i class="fas fa-video-slash"></i> Matikan';
-                toggleBtn.style.borderColor = 'rgba(234,193,104,0.3)';
-            } catch (err) {
-                console.error('Gagal akses kamera:', err);
-                cameraStatus.textContent = 'Tidak Ada Akses';
-                // Tampilkan fallback
-                localVideo.style.background = '#2a1f0a';
-                localVideo.style.display = 'flex';
-                localVideo.style.alignItems = 'center';
-                localVideo.style.justifyContent = 'center';
-                localVideo.innerHTML = `
-                            <div style="color:#f5d48a; text-align:center; padding:1rem;">
-                                <i class="fas fa-camera-slash" style="font-size:2rem; display:block; margin-bottom:0.5rem;"></i>
-                                <span style="font-size:0.9rem;">Kamera tidak tersedia</span>
-                                <br><span style="font-size:0.7rem; opacity:0.6;">Izin kamera diperlukan</span>
-                            </div>
-                        `;
-                // CSS untuk fallback
-                localVideo.style.display = 'flex';
-                localVideo.style.alignItems = 'center';
-                localVideo.style.justifyContent = 'center';
-                localVideo.style.minHeight = '280px';
-                toggleBtn.style.display = 'none';
-            }
-        }
+            // ===== ELEMEN =====
+            const localVideo = document.getElementById('localVideo');
+            const toggleBtn = document.getElementById('toggleCameraBtn');
+            const camStatusBadge = document.getElementById('camStatusBadge');
+            const cameraStatusText = document.getElementById('cameraStatusText');
+            const cameraWrapper = document.getElementById('cameraWrapper');
 
-        function toggleCamera() {
-            if (!localStream) return;
-            if (cameraActive) {
-                // Matikan kamera
-                localStream.getTracks().forEach(track => track.stop());
-                localStream = null;
-                localVideo.srcObject = null;
-                cameraActive = false;
-                cameraStatus.textContent = 'Mati';
-                toggleBtn.innerHTML = '<i class="fas fa-video"></i> Nyalakan';
-                toggleBtn.style.borderColor = '#e74c3c';
-                // Tampilkan placeholder
-                localVideo.style.background = '#1a1a2e';
-                localVideo.style.display = 'flex';
-                localVideo.style.alignItems = 'center';
-                localVideo.style.justifyContent = 'center';
-                localVideo.innerHTML = `
-                            <div style="color:#f5d48a; text-align:center; padding:1rem; opacity:0.6;">
-                                <i class="fas fa-camera-slash" style="font-size:2rem; display:block; margin-bottom:0.5rem;"></i>
-                                <span style="font-size:0.9rem;">Kamera dimatikan</span>
-                            </div>
-                        `;
-            } else {
-                // Nyalakan kamera
-                startCamera();
-                // Hapus placeholder jika ada
-                localVideo.innerHTML = '';
-                localVideo.style.display = 'block';
-                localVideo.style.background = '#1a1a2e';
-                // Re-attach stream setelah startCamera selesai
-                // startCamera akan mengatur srcObject
-                // Tapi karena startCamera async, kita tunggu sebentar
-                // Lebih baik reload stream
-                startCamera();
-            }
-        }
+            let localStream = null;
+            let cameraActive = true;
 
-        // Event listener tombol toggle
-        toggleBtn.addEventListener('click', toggleCamera);
-
-        // Mulai kamera saat halaman dimuat
-        startCamera();
-
-        // ===== STREAMING IFRAME =====
-        // Jika iframe gagal dimuat, tampilkan pesan
-        const streamIframe = document.getElementById('streamIframe');
-        streamIframe.addEventListener('error', function() {
-            // Jika iframe error, kita tampilkan pesan di dalam wrapper
-            const wrapper = this.parentElement;
-            const existingMsg = wrapper.querySelector('.iframe-fallback');
-            if (!existingMsg) {
-                const fallback = document.createElement('div');
-                fallback.className = 'iframe-fallback';
-                fallback.style.cssText = `
-                            position: absolute; top:0; left:0; right:0; bottom:0;
-                            background: #1a1a2e; display:flex; align-items:center; justify-content:center;
-                            color: #f5d48a; flex-direction:column; gap:0.5rem; padding:1rem; text-align:center;
-                            z-index:1;
-                        `;
-                fallback.innerHTML = `
-                            <i class="fas fa-wifi" style="font-size:2rem; opacity:0.5;"></i>
-                            <span style="font-size:0.9rem;">Streaming tidak tersedia</span>
-                            <span style="font-size:0.7rem; opacity:0.5;">http://10.101.209.101/</span>
-                        `;
-                wrapper.appendChild(fallback);
-            }
-        });
-
-        // Deteksi jika iframe tidak bisa dimuat (timeout)
-        setTimeout(() => {
-            // Cek apakah iframe berhasil dimuat dengan mencoba akses konten
-            try {
-                // Jika cross-origin, akan error, tapi kita anggap berhasil
-                // Kita hanya cek apakah iframe punya src
-                const iframe = document.getElementById('streamIframe');
-                if (iframe && iframe.src) {
-                    // Berhasil, tidak perlu tambahan
+            // ===== MULAI KAMERA =====
+            async function startCamera() {
+                try {
+                    localStream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: 'user',
+                            width: { ideal: 640 },
+                            height: { ideal: 480 }
+                        },
+                        audio: false
+                    });
+                    localVideo.srcObject = localStream;
+                    cameraActive = true;
+                    updateUI('on');
+                } catch (err) {
+                    console.warn('Gagal akses kamera:', err);
+                    cameraActive = false;
+                    updateUI('off');
+                    showCameraFallback('Kamera tidak tersedia<br><span style="font-size:0.7rem;opacity:0.6;">Izin kamera diperlukan</span>');
+                    toggleBtn.style.display = 'none';
                 }
-            } catch (e) {
-                // Cross-origin, berarti berhasil dimuat
             }
-        }, 5000);
+
+            // ===== FALLBACK KAMERA =====
+            function showCameraFallback(msg) {
+                // Hapus video jika ada
+                if (localVideo) {
+                    localVideo.style.display = 'none';
+                }
+                // Cek apakah fallback sudah ada
+                let fallback = cameraWrapper.querySelector('.camera-fallback');
+                if (!fallback) {
+                    fallback = document.createElement('div');
+                    fallback.className = 'camera-fallback';
+                    fallback.style.cssText = `
+                                position: absolute; top:0; left:0; right:0; bottom:0;
+                                display: flex; align-items: center; justify-content: center;
+                                background: #1a1a2e; color: #f5d48a; text-align: center;
+                                padding: 1.5rem; z-index: 1; flex-direction: column; gap: 0.5rem;
+                            `;
+                    fallback.innerHTML = `
+                                <i class="fas fa-camera-slash" style="font-size:2.5rem; opacity:0.5;"></i>
+                                <div style="font-size:0.95rem;">${msg}</div>
+                            `;
+                    cameraWrapper.appendChild(fallback);
+                } else {
+                    fallback.innerHTML = `
+                                <i class="fas fa-camera-slash" style="font-size:2.5rem; opacity:0.5;"></i>
+                                <div style="font-size:0.95rem;">${msg}</div>
+                            `;
+                    fallback.style.display = 'flex';
+                }
+            }
+
+            function removeCameraFallback() {
+                const fallback = cameraWrapper.querySelector('.camera-fallback');
+                if (fallback) {
+                    fallback.style.display = 'none';
+                }
+                if (localVideo) {
+                    localVideo.style.display = 'block';
+                }
+            }
+
+            // ===== UPDATE UI =====
+            function updateUI(state) {
+                if (state === 'on') {
+                    camStatusBadge.className = 'status-badge cam-on';
+                    camStatusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Aktif';
+                    cameraStatusText.textContent = 'Aktif';
+                    toggleBtn.className = 'cam-control-btn';
+                    toggleBtn.innerHTML = '<i class="fas fa-video-slash"></i> Matikan';
+                    toggleBtn.style.display = 'flex';
+                    removeCameraFallback();
+                } else {
+                    camStatusBadge.className = 'status-badge cam-off';
+                    camStatusBadge.innerHTML = '<i class="fas fa-times-circle"></i> Mati';
+                    cameraStatusText.textContent = 'Mati';
+                    toggleBtn.className = 'cam-control-btn off';
+                    toggleBtn.innerHTML = '<i class="fas fa-video"></i> Nyalakan';
+                    toggleBtn.style.display = 'flex';
+                }
+            }
+
+            // ===== TOGGLE KAMERA =====
+            function toggleCamera() {
+                if (!cameraActive) {
+                    // Nyalakan ulang
+                    startCamera();
+                    return;
+                }
+                // Matikan
+                if (localStream) {
+                    localStream.getTracks().forEach(track => track.stop());
+                    localStream = null;
+                    localVideo.srcObject = null;
+                }
+                cameraActive = false;
+                updateUI('off');
+                // Tampilkan fallback mati
+                showCameraFallback('Kamera dimatikan');
+            }
+
+            // ===== EVENT LISTENER =====
+            toggleBtn.addEventListener('click', toggleCamera);
+
+            // ===== INISIALISASI =====
+            startCamera();
+
+            // ===== IFRAME FALLBACK =====
+            const streamIframe = document.getElementById('streamIframe');
+            // Jika iframe gagal dimuat, tampilkan pesan di dalam wrapper
+            streamIframe.addEventListener('error', function() {
+                const wrapper = this.parentElement;
+                let fallback = wrapper.querySelector('.iframe-fallback');
+                if (!fallback) {
+                    fallback = document.createElement('div');
+                    fallback.className = 'iframe-fallback';
+                    fallback.style.cssText = `
+                                position: absolute; top:0; left:0; right:0; bottom:0;
+                                background: #1a1a2e; display:flex; align-items:center; justify-content:center;
+                                color: #f5d48a; flex-direction:column; gap:0.5rem; padding:1.5rem; text-align:center;
+                                z-index:1;
+                            `;
+                    fallback.innerHTML = `
+                                <i class="fas fa-wifi" style="font-size:2.5rem; opacity:0.4;"></i>
+                                <span style="font-size:0.95rem;">Streaming tidak tersedia</span>
+                                <span style="font-size:0.7rem; opacity:0.5;">http://10.101.209.101/</span>
+                            `;
+                    wrapper.appendChild(fallback);
+                } else {
+                    fallback.style.display = 'flex';
+                }
+            });
+
+        })();
     </script>
+
 </body>
 </html>
