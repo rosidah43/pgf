@@ -27,7 +27,7 @@
     .card {
       max-width: 1100px;
       width: 100%;
-      background: #fef9e6;  /* dasar krem gold */
+      background: #fef9e6;
       background-image: radial-gradient(circle at 10% 20%, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
       border-radius: 48px 48px 40px 40px;
       box-shadow: 
@@ -39,7 +39,7 @@
       transition: all 0.2s ease;
     }
 
-    /* Container video streaming - tambahan baru */
+    /* Container video streaming - menggunakan object sebagai fallback untuk mixed content */
     .video-stream-container {
       width: 100%;
       margin-bottom: 1.8rem;
@@ -49,14 +49,58 @@
       border: 2px solid #eac97a;
       background: #0a0a0a;
       transition: all 0.2s ease;
+      position: relative;
     }
 
-    .video-stream-container iframe {
+    .video-stream-container object {
       display: block;
       width: 100%;
       height: 280px;
       border: none;
       background: #1a1a1a;
+    }
+
+    /* Fallback untuk jika object tidak bisa dimuat */
+    .video-stream-container .fallback-msg {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #f5d48a;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      font-size: 1rem;
+      gap: 0.8rem;
+    }
+
+    .video-stream-container .fallback-msg i {
+      font-size: 2.5rem;
+      color: #eac168;
+      margin-bottom: 0.3rem;
+    }
+
+    .video-stream-container .fallback-msg .link-http {
+      color: #f5d48a;
+      background: rgba(234, 193, 104, 0.2);
+      padding: 0.3rem 1.2rem;
+      border-radius: 30px;
+      border: 1px solid #eac168;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s;
+      display: inline-block;
+      margin-top: 0.3rem;
+    }
+
+    .video-stream-container .fallback-msg .link-http:hover {
+      background: rgba(234, 193, 104, 0.35);
+      transform: scale(1.02);
     }
 
     .video-stream-container .video-caption {
@@ -70,6 +114,7 @@
       gap: 0.8rem;
       letter-spacing: 0.3px;
       border-top: 1px solid #dbb95c;
+      flex-wrap: wrap;
     }
 
     .video-stream-container .video-caption i {
@@ -205,7 +250,7 @@
       .card { padding: 1.8rem; }
       .title-group h1 { font-size: 2rem; }
       .content-grid { grid-template-columns: 1fr; gap: 1.8rem; }
-      .video-stream-container iframe { height: 200px; }
+      .video-stream-container object { height: 200px; }
     }
 
     /* panel kiri */
@@ -421,14 +466,32 @@
 </head>
 <body>
   <div class="card">
-    <!-- VIDEO STREAMING di bagian atas -->
+    <!-- VIDEO STREAMING - menggunakan object untuk menghindari Mixed Content -->
     <div class="video-stream-container">
-      <iframe 
-        src="http://10.101.209.101/" 
-        allowfullscreen 
-        loading="lazy"
-        title="Video Streaming SMA Negeri 5 Bogor"
-      ></iframe>
+      <object 
+        data="http://10.101.209.101/" 
+        type="text/html"
+        width="100%" 
+        height="280"
+        aria-label="Video Streaming SMA Negeri 5 Bogor"
+      >
+        <!-- Fallback jika object tidak bisa dimuat karena Mixed Content -->
+        <div class="fallback-msg" style="display:flex;">
+          <i class="fas fa-video-slash"></i>
+          <div>
+            <strong style="font-size:1.1rem;">Streaming tidak dapat ditampilkan</strong>
+            <p style="margin-top:0.3rem; opacity:0.8; font-size:0.9rem;">
+              Konten HTTP tidak diizinkan di halaman HTTPS.
+            </p>
+            <a href="http://10.101.209.101/" target="_blank" class="link-http">
+              <i class="fas fa-external-link-alt"></i> Buka langsung di browser
+            </a>
+            <p style="margin-top:0.5rem; font-size:0.8rem; opacity:0.6;">
+              atau ubah pengaturan keamanan browser Anda.
+            </p>
+          </div>
+        </div>
+      </object>
       <div class="video-caption">
         <i class="fas fa-video"></i>
         <span class="live-dot"></span>
@@ -467,7 +530,7 @@
         </div>
         <div class="bio-item">
           <span class="bio-label"><i class="fas fa-briefcase"></i> Jabatan</span>
-          <span class="bio-value">Guru Fisika & Kepala Laboratorium 2020-2025</span>
+          <span class="bio-value">Guru Fisika & Kepala Perpustakaan 2020-2025</span>
         </div>
         <div class="bio-item">
           <span class="bio-label"><i class="fas fa-calendar-alt"></i> Mengajar Sejak</span>
@@ -475,7 +538,7 @@
         </div>
         <div class="bio-item">
           <span class="bio-label"><i class="fas fa-graduation-cap"></i> Pendidikan</span>
-          <span class="bio-value">S2 Pendidikan FPMIPA (UI)</span>
+          <span class="bio-value">S2 Pendidikan Fisika (UI)</span>
         </div>
         <div class="bio-item">
           <span class="bio-label"><i class="fas fa-flask"></i> Bidang</span>
