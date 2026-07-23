@@ -148,8 +148,12 @@
             color: #fbbf24;
             border-color: rgba(251, 191, 36, 0.25);
         }
+        .status-badge.stream-off {
+            color: #f87171;
+            border-color: rgba(248, 113, 113, 0.2);
+        }
 
-        /* Tombol kontrol kamera (overlay) */
+        /* Tombol kontrol */
         .cam-control-btn {
             position: absolute;
             bottom: 60px;
@@ -180,6 +184,31 @@
         }
         .cam-control-btn.off:hover {
             background: rgba(248, 113, 113, 0.15);
+        }
+
+        .stream-reload-btn {
+            position: absolute;
+            bottom: 60px;
+            right: 14px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(234, 193, 104, 0.3);
+            color: #f5d48a;
+            padding: 0.35rem 1rem;
+            border-radius: 24px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 3;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.3px;
+        }
+        .stream-reload-btn:hover {
+            background: rgba(234, 193, 104, 0.25);
+            transform: scale(1.03);
         }
 
         /* Caption bawah video */
@@ -540,7 +569,8 @@
                 bottom: 8px;
                 left: 8px;
             }
-            .cam-control-btn {
+            .cam-control-btn,
+            .stream-reload-btn {
                 font-size: 0.6rem;
                 padding: 0.25rem 0.7rem;
                 bottom: 48px;
@@ -556,6 +586,82 @@
                 width: 80px;
                 font-size: 0.8rem;
             }
+        }
+
+        /* ===== STREAM FALLBACK ===== */
+        .iframe-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #1a1a2e;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: #f5d48a;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            z-index: 1;
+        }
+        .iframe-fallback.visible {
+            display: flex;
+        }
+        .iframe-fallback i {
+            font-size: 2.5rem;
+            opacity: 0.4;
+        }
+        .iframe-fallback .sub-text {
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+        .iframe-fallback .retry-link {
+            margin-top: 0.3rem;
+            color: #f5d48a;
+            background: rgba(234, 193, 104, 0.15);
+            padding: 0.3rem 1.2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(234, 193, 104, 0.3);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .iframe-fallback .retry-link:hover {
+            background: rgba(234, 193, 104, 0.25);
+        }
+
+        /* ===== CAMERA FALLBACK ===== */
+        .camera-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a2e;
+            color: #f5d48a;
+            text-align: center;
+            padding: 1.5rem;
+            z-index: 1;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .camera-fallback.visible {
+            display: flex;
+        }
+        .camera-fallback i {
+            font-size: 2.5rem;
+            opacity: 0.5;
+        }
+        .camera-fallback .sub-text {
+            font-size: 0.7rem;
+            opacity: 0.6;
         }
     </style>
 </head>
@@ -582,17 +688,33 @@
                     <button class="cam-control-btn" id="toggleCameraBtn">
                         <i class="fas fa-video-slash"></i> Matikan
                     </button>
+                    <div class="camera-fallback" id="cameraFallback">
+                        <i class="fas fa-camera-slash"></i>
+                        <div id="cameraFallbackMsg">Kamera tidak tersedia</div>
+                        <div class="sub-text">Izin kamera diperlukan</div>
+                    </div>
                 </div>
 
                 <!-- KANAN : Stream IP HTTP -->
-                <div class="video-wrapper">
+                <div class="video-wrapper" id="streamWrapper">
                     <iframe id="streamIframe" src="http://10.101.209.101/" allowfullscreen loading="lazy" title="Streaming SMA Negeri 5 Bogor"></iframe>
                     <div class="video-label">
                         <i class="fas fa-wifi"></i>
                         <span class="live-dot"></span> Streaming Server
                     </div>
-                    <div class="status-badge stream-live">
+                    <div class="status-badge stream-live" id="streamStatusBadge">
                         <i class="fas fa-circle"></i> Live
+                    </div>
+                    <button class="stream-reload-btn" id="reloadStreamBtn">
+                        <i class="fas fa-sync-alt"></i> Reload
+                    </button>
+                    <div class="iframe-fallback" id="streamFallback">
+                        <i class="fas fa-wifi"></i>
+                        <div>Streaming tidak tersedia</div>
+                        <div class="sub-text">http://10.101.209.101/</div>
+                        <button class="retry-link" id="retryStreamBtn">
+                            <i class="fas fa-redo"></i> Coba Lagi
+                        </button>
                     </div>
                 </div>
 
@@ -606,6 +728,9 @@
                     <i class="fas fa-wifi"></i> http://10.101.209.101/
                     <span style="margin-left:0.5rem; font-size:0.7rem; opacity:0.7;">
                         <i class="fas fa-camera"></i> <span id="cameraStatusText">Aktif</span>
+                    </span>
+                    <span style="margin-left:0.5rem; font-size:0.7rem; opacity:0.7;" id="streamStatusText">
+                        <i class="fas fa-circle" style="color:#4ade80;"></i> Online
                     </span>
                 </div>
             </div>
@@ -702,23 +827,38 @@
     </div>
 
     <!-- ========================================================= -->
-    <!--  JAVASCRIPT : Kontrol Kamera & Fallback                     -->
+    <!--  JAVASCRIPT : Kontrol Kamera + Streaming                   -->
     <!-- ========================================================= -->
     <script>
         (function() {
             'use strict';
 
-            // ===== ELEMEN =====
+            // ===== ELEMEN KAMERA =====
             const localVideo = document.getElementById('localVideo');
             const toggleBtn = document.getElementById('toggleCameraBtn');
             const camStatusBadge = document.getElementById('camStatusBadge');
             const cameraStatusText = document.getElementById('cameraStatusText');
             const cameraWrapper = document.getElementById('cameraWrapper');
+            const cameraFallback = document.getElementById('cameraFallback');
+            const cameraFallbackMsg = document.getElementById('cameraFallbackMsg');
 
             let localStream = null;
             let cameraActive = true;
 
-            // ===== MULAI KAMERA =====
+            // ===== ELEMEN STREAM =====
+            const streamIframe = document.getElementById('streamIframe');
+            const streamFallback = document.getElementById('streamFallback');
+            const streamStatusBadge = document.getElementById('streamStatusBadge');
+            const streamStatusText = document.getElementById('streamStatusText');
+            const reloadBtn = document.getElementById('reloadStreamBtn');
+            const retryBtn = document.getElementById('retryStreamBtn');
+            const streamWrapper = document.getElementById('streamWrapper');
+
+            let streamOnline = true;
+            let reloadAttempts = 0;
+            const MAX_RELOAD_ATTEMPTS = 5;
+
+            // ===== FUNGSI KAMERA =====
             async function startCamera() {
                 try {
                     localStream = await navigator.mediaDevices.getUserMedia({
@@ -731,130 +871,30 @@
                     });
                     localVideo.srcObject = localStream;
                     cameraActive = true;
-                    updateUI('on');
+                    updateCameraUI('on');
                 } catch (err) {
                     console.warn('Gagal akses kamera:', err);
                     cameraActive = false;
-                    updateUI('off');
-                    showCameraFallback('Kamera tidak tersedia<br><span style="font-size:0.7rem;opacity:0.6;">Izin kamera diperlukan</span>');
+                    updateCameraUI('off');
+                    showCameraFallback('Kamera tidak tersedia', 'Izin kamera diperlukan');
                     toggleBtn.style.display = 'none';
                 }
             }
 
-            // ===== FALLBACK KAMERA =====
-            function showCameraFallback(msg) {
-                // Hapus video jika ada
-                if (localVideo) {
-                    localVideo.style.display = 'none';
-                }
-                // Cek apakah fallback sudah ada
-                let fallback = cameraWrapper.querySelector('.camera-fallback');
-                if (!fallback) {
-                    fallback = document.createElement('div');
-                    fallback.className = 'camera-fallback';
-                    fallback.style.cssText = `
-                                position: absolute; top:0; left:0; right:0; bottom:0;
-                                display: flex; align-items: center; justify-content: center;
-                                background: #1a1a2e; color: #f5d48a; text-align: center;
-                                padding: 1.5rem; z-index: 1; flex-direction: column; gap: 0.5rem;
-                            `;
-                    fallback.innerHTML = `
-                                <i class="fas fa-camera-slash" style="font-size:2.5rem; opacity:0.5;"></i>
-                                <div style="font-size:0.95rem;">${msg}</div>
-                            `;
-                    cameraWrapper.appendChild(fallback);
-                } else {
-                    fallback.innerHTML = `
-                                <i class="fas fa-camera-slash" style="font-size:2.5rem; opacity:0.5;"></i>
-                                <div style="font-size:0.95rem;">${msg}</div>
-                            `;
-                    fallback.style.display = 'flex';
-                }
+            function showCameraFallback(msg, subMsg) {
+                cameraFallback.classList.add('visible');
+                cameraFallbackMsg.textContent = msg || 'Kamera tidak tersedia';
+                const sub = cameraFallback.querySelector('.sub-text');
+                if (sub) sub.textContent = subMsg || '';
+                if (localVideo) localVideo.style.display = 'none';
             }
 
-            function removeCameraFallback() {
-                const fallback = cameraWrapper.querySelector('.camera-fallback');
-                if (fallback) {
-                    fallback.style.display = 'none';
-                }
-                if (localVideo) {
-                    localVideo.style.display = 'block';
-                }
+            function hideCameraFallback() {
+                cameraFallback.classList.remove('visible');
+                if (localVideo) localVideo.style.display = 'block';
             }
 
-            // ===== UPDATE UI =====
-            function updateUI(state) {
+            function updateCameraUI(state) {
                 if (state === 'on') {
                     camStatusBadge.className = 'status-badge cam-on';
-                    camStatusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Aktif';
-                    cameraStatusText.textContent = 'Aktif';
-                    toggleBtn.className = 'cam-control-btn';
-                    toggleBtn.innerHTML = '<i class="fas fa-video-slash"></i> Matikan';
-                    toggleBtn.style.display = 'flex';
-                    removeCameraFallback();
-                } else {
-                    camStatusBadge.className = 'status-badge cam-off';
-                    camStatusBadge.innerHTML = '<i class="fas fa-times-circle"></i> Mati';
-                    cameraStatusText.textContent = 'Mati';
-                    toggleBtn.className = 'cam-control-btn off';
-                    toggleBtn.innerHTML = '<i class="fas fa-video"></i> Nyalakan';
-                    toggleBtn.style.display = 'flex';
-                }
-            }
-
-            // ===== TOGGLE KAMERA =====
-            function toggleCamera() {
-                if (!cameraActive) {
-                    // Nyalakan ulang
-                    startCamera();
-                    return;
-                }
-                // Matikan
-                if (localStream) {
-                    localStream.getTracks().forEach(track => track.stop());
-                    localStream = null;
-                    localVideo.srcObject = null;
-                }
-                cameraActive = false;
-                updateUI('off');
-                // Tampilkan fallback mati
-                showCameraFallback('Kamera dimatikan');
-            }
-
-            // ===== EVENT LISTENER =====
-            toggleBtn.addEventListener('click', toggleCamera);
-
-            // ===== INISIALISASI =====
-            startCamera();
-
-            // ===== IFRAME FALLBACK =====
-            const streamIframe = document.getElementById('streamIframe');
-            // Jika iframe gagal dimuat, tampilkan pesan di dalam wrapper
-            streamIframe.addEventListener('error', function() {
-                const wrapper = this.parentElement;
-                let fallback = wrapper.querySelector('.iframe-fallback');
-                if (!fallback) {
-                    fallback = document.createElement('div');
-                    fallback.className = 'iframe-fallback';
-                    fallback.style.cssText = `
-                                position: absolute; top:0; left:0; right:0; bottom:0;
-                                background: #1a1a2e; display:flex; align-items:center; justify-content:center;
-                                color: #f5d48a; flex-direction:column; gap:0.5rem; padding:1.5rem; text-align:center;
-                                z-index:1;
-                            `;
-                    fallback.innerHTML = `
-                                <i class="fas fa-wifi" style="font-size:2.5rem; opacity:0.4;"></i>
-                                <span style="font-size:0.95rem;">Streaming tidak tersedia</span>
-                                <span style="font-size:0.7rem; opacity:0.5;">http://10.101.209.101/</span>
-                            `;
-                    wrapper.appendChild(fallback);
-                } else {
-                    fallback.style.display = 'flex';
-                }
-            });
-
-        })();
-    </script>
-
-</body>
-</html>
+                    camStatusBadge.innerHTML = '<i class="fas fa-check-circle"></i>
