@@ -33,11 +33,7 @@
             border: 1px solid #eac97a;
             transition: box-shadow 0.25s ease;
         }
-        .card:hover {
-            box-shadow: 0 24px 48px -12px rgba(184, 142, 47, 0.45), 0 8px 28px rgba(160, 120, 30, 0.2);
-        }
 
-        /* ===== VIDEO SIDE-BY-SIDE ===== */
         .video-stream-container {
             width: 100%;
             margin-bottom: 1.8rem;
@@ -96,9 +92,6 @@
             z-index: 2;
             pointer-events: none;
         }
-        .video-label i {
-            font-size: 0.85rem;
-        }
 
         .live-dot {
             display: inline-block;
@@ -108,10 +101,20 @@
             border-radius: 50%;
             animation: pulse-dot 1.5s infinite;
         }
+
         @keyframes pulse-dot {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.85); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(0.85);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .status-badge {
@@ -131,6 +134,7 @@
             pointer-events: none;
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
+
         .status-badge.cam-on {
             color: #4ade80;
             border-color: rgba(74, 222, 128, 0.25);
@@ -146,6 +150,10 @@
         .status-badge.stream-off {
             color: #f87171;
             border-color: rgba(248, 113, 113, 0.2);
+        }
+        .status-badge.stream-loading {
+            color: #60a5fa;
+            border-color: rgba(96, 165, 250, 0.25);
         }
 
         .cam-control-btn {
@@ -168,10 +176,12 @@
             gap: 6px;
             letter-spacing: 0.3px;
         }
+
         .cam-control-btn:hover {
             background: rgba(234, 193, 104, 0.25);
             transform: scale(1.03);
         }
+
         .cam-control-btn.off {
             border-color: #f87171;
             color: #f87171;
@@ -200,6 +210,7 @@
             gap: 6px;
             letter-spacing: 0.3px;
         }
+
         .stream-reload-btn:hover {
             background: rgba(234, 193, 104, 0.25);
             transform: scale(1.03);
@@ -217,9 +228,7 @@
             flex-wrap: wrap;
             border-top: 1px solid #dbb95c;
         }
-        .video-caption i {
-            color: #3d2e0f;
-        }
+
         .caption-right {
             margin-left: auto;
             font-weight: 400;
@@ -231,7 +240,6 @@
             flex-wrap: wrap;
         }
 
-        /* ===== HEADER ===== */
         .header {
             display: flex;
             flex-wrap: wrap;
@@ -241,6 +249,7 @@
             padding-bottom: 1.8rem;
             margin-bottom: 2rem;
         }
+
         .avatar {
             display: flex;
             align-items: center;
@@ -253,14 +262,17 @@
             border: 4px solid #fff2d0;
             flex-shrink: 0;
         }
+
         .avatar i {
             font-size: 4.2rem;
             color: #3d2e0f;
             text-shadow: 0 2px 6px rgba(255, 215, 0, 0.6);
         }
+
         .title-group {
             flex: 1;
         }
+
         .title-group h1 {
             font-size: 2.6rem;
             font-weight: 700;
@@ -271,6 +283,7 @@
             align-items: baseline;
             gap: 0.3rem 1rem;
         }
+
         .title-group h1 span {
             background: linear-gradient(to right, #a77d2e, #dbb257);
             -webkit-background-clip: text;
@@ -278,6 +291,7 @@
             background-clip: text;
             font-weight: 700;
         }
+
         .badge-guru {
             display: inline-block;
             background: #eac168;
@@ -290,6 +304,7 @@
             border: 1px solid #f5d48a;
             backdrop-filter: blur(2px);
         }
+
         .subhead {
             display: flex;
             flex-wrap: wrap;
@@ -297,11 +312,13 @@
             gap: 0.8rem 2rem;
             margin-top: 0.6rem;
         }
+
         .subhead i {
             color: #b48b32;
             width: 1.6rem;
             font-size: 1.2rem;
         }
+
         .subhead .school {
             font-size: 1.3rem;
             font-weight: 600;
@@ -311,6 +328,7 @@
             border-radius: 30px;
             border-left: 4px solid #c99f3c;
         }
+
         .subhead .motto {
             font-style: italic;
             color: #5a441b;
@@ -321,7 +339,6 @@
             box-shadow: inset 0 1px 4px rgba(255, 215, 0, 0.2);
         }
 
-        /* ===== KONTEN GRID ===== */
         .content-grid {
             display: grid;
             grid-template-columns: 1.3fr 0.9fr;
@@ -337,6 +354,7 @@
             border: 1px solid #eed39b;
             box-shadow: inset 0 1px 6px #fff7da, 0 6px 14px rgba(180, 140, 50, 0.12);
         }
+
         .bio-panel h2 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -348,18 +366,22 @@
             align-items: center;
             gap: 0.6rem;
         }
+
         .bio-panel h2 i {
             color: #ba953a;
         }
+
         .bio-item {
             display: flex;
             align-items: baseline;
             padding: 0.6rem 0;
             border-bottom: 1px solid #f0dcac;
         }
+
         .bio-item:last-child {
             border-bottom: none;
         }
+
         .bio-label {
             font-weight: 600;
             width: 110px;
@@ -367,15 +389,12 @@
             font-size: 0.95rem;
             letter-spacing: 0.2px;
         }
+
         .bio-value {
             color: #2c1f08;
             font-weight: 500;
         }
-        .bio-value i {
-            margin-right: 6px;
-            color: #b48b32;
-            width: 1.2rem;
-        }
+
         .divider-gold {
             height: 3px;
             background: linear-gradient(90deg, #eac168, #f7e09f, #eac168);
@@ -384,6 +403,7 @@
             border-radius: 10px;
             opacity: 0.6;
         }
+
         .quote-box {
             background: #fdf7e3;
             padding: 1rem 1.4rem;
@@ -392,10 +412,7 @@
             margin-top: 1.2rem;
             box-shadow: inset 0 1px 4px #fff3cc;
         }
-        .quote-box i {
-            color: #b48b32;
-            margin-right: 6px;
-        }
+
         .quote-box p {
             font-size: 1rem;
             line-height: 1.5;
@@ -411,6 +428,7 @@
             border: 1px solid #eed39b;
             box-shadow: inset 0 1px 6px #fff7da, 0 6px 14px rgba(180, 140, 50, 0.12);
         }
+
         .expertise-panel h2 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -422,12 +440,15 @@
             align-items: center;
             gap: 0.6rem;
         }
+
         .expertise-panel h2 i {
             color: #ba953a;
         }
+
         .skill-list {
             list-style: none;
         }
+
         .skill-list li {
             padding: 0.7rem 0 0.7rem 0.2rem;
             border-bottom: 1px solid #f0dcac;
@@ -437,15 +458,18 @@
             font-weight: 500;
             color: #2f2109;
         }
+
         .skill-list li:last-child {
             border-bottom: none;
         }
+
         .skill-list i {
             width: 1.6rem;
             color: #b48b32;
             font-size: 1.2rem;
             text-align: center;
         }
+
         .chip-gold {
             background: #eed39b;
             color: #2d1f05;
@@ -470,6 +494,7 @@
             gap: 0.8rem 1.8rem;
             justify-content: center;
         }
+
         .contact-mini div {
             display: flex;
             align-items: center;
@@ -477,6 +502,7 @@
             color: #4d3a15;
             font-weight: 500;
         }
+
         .contact-mini i {
             color: #b48b32;
             font-size: 1.1rem;
@@ -497,14 +523,11 @@
             flex-wrap: wrap;
             letter-spacing: 0.3px;
         }
-        .footer-note i {
-            color: #b48b32;
-        }
+
         .gold-star {
             color: #dbb257;
         }
 
-        /* ===== FALLBACK ===== */
         .iframe-fallback {
             position: absolute;
             top: 0;
@@ -522,17 +545,21 @@
             text-align: center;
             z-index: 1;
         }
+
         .iframe-fallback.visible {
             display: flex;
         }
+
         .iframe-fallback i {
             font-size: 2.5rem;
             opacity: 0.4;
         }
+
         .iframe-fallback .sub-text {
             font-size: 0.7rem;
             opacity: 0.5;
         }
+
         .iframe-fallback .retry-link {
             margin-top: 0.3rem;
             color: #f5d48a;
@@ -546,6 +573,7 @@
             cursor: pointer;
             transition: 0.2s;
         }
+
         .iframe-fallback .retry-link:hover {
             background: rgba(234, 193, 104, 0.25);
         }
@@ -567,19 +595,38 @@
             flex-direction: column;
             gap: 0.5rem;
         }
+
         .camera-fallback.visible {
             display: flex;
         }
+
         .camera-fallback i {
             font-size: 2.5rem;
             opacity: 0.5;
         }
+
         .camera-fallback .sub-text {
             font-size: 0.7rem;
             opacity: 0.6;
         }
 
-        /* ===== RESPONSIVE ===== */
+        .camera-fallback .retry-link {
+            margin-top: 0.3rem;
+            color: #f5d48a;
+            background: rgba(234, 193, 104, 0.15);
+            padding: 0.3rem 1.2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(234, 193, 104, 0.3);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .camera-fallback .retry-link:hover {
+            background: rgba(234, 193, 104, 0.25);
+        }
+
         @media (max-width: 850px) {
             .card {
                 padding: 1.8rem;
@@ -618,9 +665,6 @@
             .card {
                 padding: 1.2rem;
                 border-radius: 32px;
-            }
-            .video-grid {
-                min-height: auto;
             }
             .video-wrapper {
                 min-height: 180px;
@@ -681,8 +725,8 @@
                     <div class="camera-fallback" id="cameraFallback">
                         <i class="fas fa-camera-slash"></i>
                         <div id="cameraFallbackMsg">Kamera tidak tersedia</div>
-                        <div class="sub-text">Izin kamera diperlukan</div>
-                        <button class="retry-link" id="retryCameraBtn" style="margin-top:0.5rem;">
+                        <div class="sub-text">Izinkan akses kamera di browser</div>
+                        <button class="retry-link" id="retryCameraBtn">
                             <i class="fas fa-redo"></i> Coba Lagi
                         </button>
                     </div>
@@ -774,7 +818,7 @@
                 </div>
                 <div class="divider-gold"></div>
                 <div class="quote-box">
-                    <i class="fas fa-quote-left" style="font-size:1.2rem;"></i>
+                    <i class="fas fa-quote-left" style="font-size:1.2rem; color:#b48b32;"></i>
                     <p>“Fisika bukan tentang rumus, tapi tentang cara berpikir. Setiap siswa punya bintangnya sendiri.”</p>
                     <div style="text-align:right; margin-top:6px; color:#9e7d37;">— Rosi Rosidah</div>
                 </div>
@@ -845,12 +889,17 @@
             // ===== FUNGSI KAMERA =====
             async function startCamera() {
                 try {
-                    // Minta akses kamera dengan constraint yang lebih jelas
+                    // Cek dukungan getUserMedia
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        throw new Error('Browser tidak mendukung akses kamera');
+                    }
+
+                    // Minta akses kamera dengan constraint yang lebih aman
                     const constraints = {
                         video: {
                             facingMode: 'user',
-                            width: { ideal: 640 },
-                            height: { ideal: 480 },
+                            width: { ideal: 640, max: 1280 },
+                            height: { ideal: 480, max: 720 },
                             frameRate: { ideal: 30 }
                         },
                         audio: false
@@ -860,6 +909,7 @@
                     localStream = await navigator.mediaDevices.getUserMedia(constraints);
                     console.log('Akses kamera berhasil');
 
+                    // Set stream ke video
                     localVideo.srcObject = localStream;
                     await localVideo.play();
 
@@ -873,11 +923,11 @@
                     updateCameraUI('off');
 
                     let errorMsg = 'Kamera tidak tersedia';
-                    let subMsg = 'Izin kamera diperlukan';
+                    let subMsg = 'Izinkan akses kamera di browser';
 
                     if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
                         errorMsg = 'Akses kamera ditolak';
-                        subMsg = 'Izinkan akses kamera di browser';
+                        subMsg = 'Klik "Izinkan" untuk menggunakan kamera';
                     } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
                         errorMsg = 'Kamera tidak ditemukan';
                         subMsg = 'Pastikan kamera terhubung';
@@ -885,7 +935,7 @@
                         errorMsg = 'Kamera sedang digunakan';
                         subMsg = 'Tutup aplikasi lain yang menggunakan kamera';
                     } else if (err.name === 'OverconstrainedError') {
-                        errorMsg = 'Kamera tidak mendukung resolusi';
+                        errorMsg = 'Resolusi kamera tidak didukung';
                         subMsg = 'Coba refresh halaman';
                     }
 
@@ -895,8 +945,4 @@
             }
 
             function showCameraFallback(msg, subMsg) {
-                cameraFallback.classList.add('visible');
-                cameraFallbackMsg.textContent = msg || 'Kamera tidak tersedia';
-                const sub = cameraFallback.querySelector('.sub-text');
-                if (sub) sub.textContent = subMsg || '';
-                if
+                cameraFallback.classList.add('
