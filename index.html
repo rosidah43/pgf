@@ -6,7 +6,6 @@
     <title>Rosi Rosidah · Guru Fisika SMAN 5 Bogor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        /* ===== RESET & GLOBAL ===== */
         * {
             margin: 0;
             padding: 0;
@@ -23,7 +22,6 @@
             padding: 2rem 1.5rem;
         }
 
-        /* ===== KARTU UTAMA ===== */
         .card {
             max-width: 1200px;
             width: 100%;
@@ -79,7 +77,6 @@
             object-fit: cover;
         }
 
-        /* Label video */
         .video-label {
             position: absolute;
             bottom: 14px;
@@ -117,7 +114,6 @@
             100% { opacity: 1; transform: scale(1); }
         }
 
-        /* Indikator status */
         .status-badge {
             position: absolute;
             top: 14px;
@@ -152,7 +148,6 @@
             border-color: rgba(248, 113, 113, 0.2);
         }
 
-        /* Tombol kontrol */
         .cam-control-btn {
             position: absolute;
             bottom: 60px;
@@ -210,7 +205,6 @@
             transform: scale(1.03);
         }
 
-        /* Caption bawah video */
         .video-caption {
             background: linear-gradient(135deg, #f3d58c, #e9b64b);
             padding: 0.5rem 1.2rem;
@@ -335,7 +329,6 @@
             margin-top: 1.5rem;
         }
 
-        /* ===== PANEL KIRI (BIO) ===== */
         .bio-panel {
             background: rgba(252, 243, 214, 0.5);
             backdrop-filter: blur(2px);
@@ -410,7 +403,6 @@
             font-style: italic;
         }
 
-        /* ===== PANEL KANAN (KEAHLIAN) ===== */
         .expertise-panel {
             background: rgba(252, 243, 214, 0.5);
             backdrop-filter: blur(2px);
@@ -491,7 +483,6 @@
             width: 1.6rem;
         }
 
-        /* ===== FOOTER ===== */
         .footer-note {
             margin-top: 2.8rem;
             text-align: center;
@@ -691,6 +682,9 @@
                         <i class="fas fa-camera-slash"></i>
                         <div id="cameraFallbackMsg">Kamera tidak tersedia</div>
                         <div class="sub-text">Izin kamera diperlukan</div>
+                        <button class="retry-link" id="retryCameraBtn" style="margin-top:0.5rem;">
+                            <i class="fas fa-redo"></i> Coba Lagi
+                        </button>
                     </div>
                 </div>
 
@@ -833,12 +827,12 @@
             const toggleBtn = document.getElementById('toggleCameraBtn');
             const camStatusBadge = document.getElementById('camStatusBadge');
             const cameraStatusText = document.getElementById('cameraStatusText');
-            const cameraWrapper = document.getElementById('cameraWrapper');
             const cameraFallback = document.getElementById('cameraFallback');
             const cameraFallbackMsg = document.getElementById('cameraFallbackMsg');
+            const retryCameraBtn = document.getElementById('retryCameraBtn');
 
             let localStream = null;
-            let cameraActive = true;
+            let cameraActive = false;
 
             // ===== ELEMEN STREAM =====
             const streamIframe = document.getElementById('streamIframe');
@@ -847,29 +841,55 @@
             const streamStatusText = document.getElementById('streamStatusText');
             const reloadBtn = document.getElementById('reloadStreamBtn');
             const retryBtn = document.getElementById('retryStreamBtn');
-            const streamWrapper = document.getElementById('streamWrapper');
-
-            let streamOnline = true;
 
             // ===== FUNGSI KAMERA =====
             async function startCamera() {
                 try {
-                    localStream = await navigator.mediaDevices.getUserMedia({
+                    // Minta akses kamera dengan constraint yang lebih jelas
+                    const constraints = {
                         video: {
                             facingMode: 'user',
                             width: { ideal: 640 },
-                            height: { ideal: 480 }
+                            height: { ideal: 480 },
+                            frameRate: { ideal: 30 }
                         },
                         audio: false
-                    });
+                    };
+
+                    console.log('Meminta akses kamera...');
+                    localStream = await navigator.mediaDevices.getUserMedia(constraints);
+                    console.log('Akses kamera berhasil');
+
                     localVideo.srcObject = localStream;
+                    await localVideo.play();
+
                     cameraActive = true;
                     updateCameraUI('on');
+                    hideCameraFallback();
+
                 } catch (err) {
-                    console.warn('Gagal akses kamera:', err);
+                    console.error('Gagal akses kamera:', err);
                     cameraActive = false;
                     updateCameraUI('off');
-                    showCameraFallback('Kamera tidak tersedia', 'Izin kamera diperlukan');
+
+                    let errorMsg = 'Kamera tidak tersedia';
+                    let subMsg = 'Izin kamera diperlukan';
+
+                    if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                        errorMsg = 'Akses kamera ditolak';
+                        subMsg = 'Izinkan akses kamera di browser';
+                    } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+                        errorMsg = 'Kamera tidak ditemukan';
+                        subMsg = 'Pastikan kamera terhubung';
+                    } else if (err.name === 'NotReadableError') {
+                        errorMsg = 'Kamera sedang digunakan';
+                        subMsg = 'Tutup aplikasi lain yang menggunakan kamera';
+                    } else if (err.name === 'OverconstrainedError') {
+                        errorMsg = 'Kamera tidak mendukung resolusi';
+                        subMsg = 'Coba refresh halaman';
+                    }
+
+                    showCameraFallback(errorMsg, subMsg);
                     toggleBtn.style.display = 'none';
                 }
             }
@@ -879,24 +899,4 @@
                 cameraFallbackMsg.textContent = msg || 'Kamera tidak tersedia';
                 const sub = cameraFallback.querySelector('.sub-text');
                 if (sub) sub.textContent = subMsg || '';
-                if (localVideo) localVideo.style.display = 'none';
-            }
-
-            function hideCameraFallback() {
-                cameraFallback.classList.remove('visible');
-                if (localVideo) localVideo.style.display = 'block';
-            }
-
-            function updateCameraUI(state) {
-                if (state === 'on') {
-                    camStatusBadge.className = 'status-badge cam-on';
-                    camStatusBadge.innerHTML = '<i class="fas fa-check-circle"></i> Aktif';
-                    cameraStatusText.textContent = 'Aktif';
-                    toggleBtn.className = 'cam-control-btn';
-                    toggleBtn.innerHTML = '<i class="fas fa-video-slash"></i> Matikan';
-                    toggleBtn.style.display = 'flex';
-                    hideCameraFallback();
-                } else {
-                    camStatusBadge.className = 'status-badge cam-off';
-                    camStatusBadge.innerHTML = '<i class="fas fa-times-circle"></i> Mati';
-                    cameraStatusText.textContent = 'Mati';
+                if
